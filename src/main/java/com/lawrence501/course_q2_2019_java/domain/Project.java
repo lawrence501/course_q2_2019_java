@@ -21,9 +21,9 @@ public class Project {
   private Long id;
   @NotBlank(message = "Project name is required")
   private String projectName;
-  @Column(updatable=false, unique=true)
+  @Column(updatable = false, unique = true)
   @NotBlank(message = "Project identifier is required")
-  @Size(min=4, max=5, message = "Project identifier must be between 4 and 5 characters")
+  @Size(min = 4, max = 5, message = "Project identifier must be between 4 and 5 characters")
   private String projectIdentifier;
   @NotBlank(message = "Project description is required")
   private String description;
@@ -48,7 +48,6 @@ public class Project {
   protected void onUpdate() {
     this.updatedAt = new Date();
   }
-
 
   public Long getId() {
     return this.id;
