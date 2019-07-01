@@ -73,7 +73,7 @@ public class ProjectTaskService {
 
   public ProjectTask updateTask(ProjectTask newTask, String backlogId) {
     String sequence = newTask.getProjectSequence();
-    ProjectTask oldTask = findTaskByProjectSequence(backlogId, sequence);
+    findTaskByProjectSequence(backlogId, sequence);
     return projectTaskRepository.save(newTask);
   }
 
