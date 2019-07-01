@@ -51,4 +51,34 @@ public class ProjectTaskService {
     }
     return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectIdentifier);
   }
+
+  public ProjectTask findTaskByProjectSequence(String backlogId, String sequence) {
+    Backlog backlog = backlogRepository.findByProjectIdentifier(backlogId);
+    if (backlog == null) {
+      throw new ProjectNotFoundException("Project '" + backlogId + "' does not exist");
+    }
+
+    ProjectTask task = projectTaskRepository.findByProjectSequence(sequence);
+    if (task == null) {
+      throw new ProjectNotFoundException("Project task '" + sequence + "' does not exist");
+    }
+
+    if (!task.getProjectIdentifier().equals(backlog.getProjectIdentifier())) {
+      throw new ProjectNotFoundException(
+          "Project task'" + sequence + "' does not exist in project '" + backlogId + "'");
+    }
+
+    return task;
+  }
+
+  public ProjectTask updateTask(ProjectTask newTask, String backlogId) {
+    String sequence = newTask.getProjectSequence();
+    ProjectTask oldTask = findTaskByProjectSequence(backlogId, sequence);
+    return projectTaskRepository.save(newTask);
+  }
+
+  public void deleteTask(String backlogId, String sequence) {
+    ProjectTask task = findTaskByProjectSequence(backlogId, sequence);
+    projectTaskRepository.delete(task);
+  }
 }
