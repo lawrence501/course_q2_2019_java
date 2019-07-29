@@ -19,12 +19,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // provides d
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
+    http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().headers().frameOptions()
         .sameOrigin() // To enable H2
         .and().authorizeRequests().antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg",
             "/**/*.html", "/**/*.css", "/**/*.js")
-        .permitAll().anyRequest().authenticated();
+        .permitAll().antMatchers("/api/users/**").permitAll().anyRequest().authenticated();
   }
 
 }

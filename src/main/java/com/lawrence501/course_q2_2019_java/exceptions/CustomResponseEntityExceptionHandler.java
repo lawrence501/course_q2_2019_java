@@ -22,4 +22,10 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     ProjectNotFoundExceptionResponse exceptionResponse = new ProjectNotFoundExceptionResponse(ex.getMessage());
     return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler
+  public final ResponseEntity<Object> handleDuplicateEmailException(DuplicateEmailException ex, WebRequest request) {
+    DuplicateEmailExceptionResponse exceptionResponse = new DuplicateEmailExceptionResponse(ex.getMessage());
+    return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
+  }
 }
