@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import com.lawrence501.course_q2_2019_java.domain.User;
 import com.lawrence501.course_q2_2019_java.services.MapValidationErrorService;
 import com.lawrence501.course_q2_2019_java.services.UserService;
+import com.lawrence501.course_q2_2019_java.validator.UserValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,13 @@ public class UserController {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private UserValidator userValidator;
+
   @PostMapping("/register")
   public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
+    userValidator.validate(user, result);
+
     ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
     if (errorMap != null) {
       return errorMap;
